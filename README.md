@@ -1,24 +1,34 @@
-# hixnav
+# 海芯导航（hixnav）
 
-## Project setup
+## 安装依赖
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 运行
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 编译产物
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
+### 编译Go SDK包
+#### 安装Golang
+
+转至[下载](https://go.dev/dl/)
+
+
+#### 安装依赖
+```shell
+go get -u github.com/jteeuwen/go-bindata/...
+go get -u github.com/elazarl/go-bindata-assetfs/...
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+###### 编译打包
+
+```shell
+ go-bindata -o pkg/bindata.go -pkg pkg ./dist/...
+```
