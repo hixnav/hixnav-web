@@ -440,8 +440,8 @@ export default {
       this.axios
         .post("/api/home")
         .then(function (response) {
-          // console.log(response);
-          self.navs = response.data.navs;
+          console.log(response);
+          self.navs = response.data.data.navs;
         })
         .catch(function (error) {
           console.log(error);
@@ -450,7 +450,7 @@ export default {
         .post("/api/cates")
         .then(function (response) {
           // console.log(response);
-          self.cates = response.data.cates;
+          self.cates = response.data.data.cates;
         })
         .catch(function (error) {
           console.log(error);

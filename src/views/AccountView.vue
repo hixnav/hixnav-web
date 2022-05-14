@@ -147,7 +147,7 @@ export default {
       this.addShow = true
       this.editShow = false
       this.dialog = true;
-      this.form = []
+      this.form = {}
     },
     openEditDrawer(index, rows) {
       console.log(rows[index]);
