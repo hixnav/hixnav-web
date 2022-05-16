@@ -77,6 +77,7 @@
 
               <el-form-item>
                 <el-button type="primary" size="small" @click="onSubmit">保存</el-button>
+                <el-button type="plain" size="small" @click="onInitHandle">初始化</el-button>
               </el-form-item>
             </el-form>
           </el-main>
@@ -96,6 +97,7 @@
 
               <el-form-item>
                 <el-button type="primary" size="small" @click="onSubmit">保存</el-button>
+                <el-button type="plain" size="small" @click="onInitHandle">初始化</el-button>
               </el-form-item>
             </el-form>
           </el-main>

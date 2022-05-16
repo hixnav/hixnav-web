@@ -14,11 +14,13 @@
             drag
             :auto-upload="false"
             :file-list="fileList"
+            :data="param"
             list-type="picture"
-            action="/api/upload"
             multiple
             :limit="3"
             ref="upload"
+            :http-request="uploadIO"
+            :with-credentials="true"
             :on-success="onSuccess"
           >
             <i class="el-icon-upload"></i>
@@ -73,6 +75,10 @@ export default {
     return {
       searchVal:"",
       activeIndex: "4",
+      file: "file",
+      param: {
+        active: "1", //默认上传文件类型
+      },
       fileList: [],
       cloudImages: [],
     };
@@ -89,11 +95,32 @@ export default {
     },
     onSuccess(res, file) {
       console.log(res, file);
-      this.cloudImages.push(res);
+
     },
     copyClicked(index) {
       this.$refs.demoInput[index].select();
       document.execCommand("copy");
+    },
+    uploadIO: function (params) {
+      let self = this,
+          file = params.file,
+          formData = new window.FormData();
+
+      formData.append(self.file, file);
+      this.$store
+          .dispatch("cloud/uploadImg", formData)
+          .then((response) => {
+            this.cloudImages.push(response.data);
+            self.$notify({
+              title: "成功",
+              message: "上传成功",
+              type: "success",
+            });
+          })
+          .catch((res) => {
+            console.log(res);
+            this.$message.error("上传失败");
+          });
     },
   },
 };

@@ -1,4 +1,4 @@
-import { listIO, uploadIO, downIO, delIO } from '@/api/cloud'
+import { listIO, uploadIO, downIO, delIO, uploadImg } from '@/api/cloud'
 
 const getDefaultState = () => {
   return {
@@ -44,6 +44,16 @@ const actions = {
   delIO({ commit }, data) {
     return new Promise((resolve, reject) => {
       delIO(data).then(response => {
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  uploadImg({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      uploadImg(data).then(response => {
         resolve(response)
       }).catch(error => {
         reject(error)

@@ -41,7 +41,7 @@
                 <template slot-scope="scope">
                   <el-button
                     size="mini"
-                    @click.native.prevent="viewCode(scope.$index, accountList)"
+                    @click.native.prevent="viewSecret(scope.$index, accountList)"
                     ><i class="el-icon-view"></i>查看密码
                   </el-button>
                   <el-button
@@ -147,7 +147,7 @@ export default {
       this.addShow = true
       this.editShow = false
       this.dialog = true;
-      this.form = []
+      this.form = {}
     },
     openEditDrawer(index, rows) {
       console.log(rows[index]);
@@ -158,6 +158,20 @@ export default {
       this.form.sitename = rows[index].Sitename
       this.form.siteurl = rows[index].Siteurl
       this.form.name = rows[index].Name
+    },
+    viewSecret(index, rows){
+      this.$store
+          .dispatch("account/accountScrete", "id=" + rows[index].ID )
+          .then((response) => {
+            this.$alert(response.data.Password, '您的秘钥', {
+              confirmButtonText: '确定',
+            });
+
+          })
+          .catch((res) => {
+            console.log(res);
+            this.$message.error("失败");
+          });
     },
     cancelForm() {
       this.dialog = false;
