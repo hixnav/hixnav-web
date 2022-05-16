@@ -3,7 +3,7 @@ import router from './router'
 import store from './store'
 import NProgress from 'nprogress'
 
-const whiteList = ['/signin','/']
+const whiteList = ['/install','/signin','/']
 
 router.beforeEach(async(to, from, next) => {
     NProgress.start()

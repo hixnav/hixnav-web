@@ -191,7 +191,7 @@ export default {
         .dispatch("cloud/listIO", this.param)
         .then((response) => {
           console.log(response);
-          self.fileLists = response.data.files;
+          self.fileLists = response.data;
         })
         .catch((res) => {
           console.log(res);

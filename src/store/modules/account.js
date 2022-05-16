@@ -1,4 +1,4 @@
-import {account, addAccount, editAccount,delAccount} from '@/api/account'
+import {account, addAccount, editAccount, delAccount, accountScrete} from '@/api/account'
 
 const getDefaultState = () => {
     return {}
@@ -12,6 +12,16 @@ const actions = {
     account({ commit }, data) {
         return new Promise((resolve, reject) => {
             account(data).then(response => {
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
+
+    accountScrete({ commit }, data) {
+        return new Promise((resolve, reject) => {
+            accountScrete(data).then(response => {
                 resolve(response)
             }).catch(error => {
                 reject(error)

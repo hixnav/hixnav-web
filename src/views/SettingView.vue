@@ -63,22 +63,23 @@
           </el-main>
 
           <el-main v-if="showMain == 2">
-            <!-- 数据库配置 -->
-            <el-form ref="form" :model="form" label-width="100px">
-              <el-form-item label="数据库地址" style="width: 60%;">
-                <el-input v-model="form.addr"></el-input>
-              </el-form-item>
-              <el-form-item label="数据库账号" style="width: 60%;">
-                <el-input v-model="form.account"></el-input>
-              </el-form-item>
-              <el-form-item label="数据库密码" style="width: 60%;">
-                <el-input type="password" v-model="form.password"></el-input>
-              </el-form-item>
+            <h3>如何完成数据迁移</h3>
+            <el-steps :active="active" finish-status="success" style="width:500px;margin-bottom: 30px">
+              <el-step title="导出数据" description="将现在的数据导出到本地"></el-step>
+              <el-step title="切换数据库" description="更换新配置数据库连接信息并且初始化数据库"></el-step>
+              <el-step title="导入数据" description="将本地的数据导入新的数据库"></el-step>
+            </el-steps>
 
-              <el-form-item>
-                <el-button type="primary" size="small" @click="onSubmit">保存</el-button>
-              </el-form-item>
-            </el-form>
+            <el-tooltip class="item" effect="dark" content="将现在的数据导出到本地" placement="bottom-end">
+              <el-button type="primary" size="small" @click="exportDBData">导出数据库</el-button>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="更换新配置数据库连接信息并且初始化数据库" placement="bottom-end">
+              <router-link to="/install" style="margin:0 10px"><el-button type="primary" size="small" @click="exportDBData">更改数据库配置</el-button></router-link>
+            </el-tooltip>
+
+            <el-tooltip class="item" effect="dark" content="将本地的数据导入新的数据库" placement="bottom-end">
+              <el-button type="primary" size="small" @click="exportDBData" >导入历史数据</el-button>
+            </el-tooltip>
           </el-main>
 
           <el-main v-if="showMain == 3">
@@ -96,6 +97,7 @@
 
               <el-form-item>
                 <el-button type="primary" size="small" @click="onSubmit">保存</el-button>
+                <el-button type="plain" size="small" @click="onInitHandle">初始化</el-button>
               </el-form-item>
             </el-form>
           </el-main>
@@ -157,6 +159,9 @@ export default {
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
+    },
+    exportDBData(){
+      console.log('export db data')
     },
   },
 };

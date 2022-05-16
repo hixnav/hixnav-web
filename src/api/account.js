@@ -31,3 +31,11 @@ export function delAccount(data) {
         data
     })
 }
+
+export function accountScrete(data) {
+    return request({
+        url: '/api/account/secret',
+        method: 'post',
+        data
+    })
+}

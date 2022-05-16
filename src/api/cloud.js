@@ -32,3 +32,12 @@ export function delIO(data) {
     data
   })
 }
+
+export function uploadImg(data) {
+  return request({
+    url: '/api/upload',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    method: 'post',
+    data
+  })
+}
