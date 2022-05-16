@@ -6,6 +6,7 @@ import nav from './modules/nav'
 import cloud from './modules/cloud'
 import link from './modules/link'
 import account from './modules/account'
+import config from './modules/config'
 import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex)
@@ -24,6 +25,7 @@ const store = new Vuex.Store({
     cloud,
     link,
     account,
+    config,
   },
   getters,
   plugins: [createPersistedState({

@@ -11,6 +11,12 @@ const routes = [{
         component: HomeView
     },
     {
+        path: '/install',
+        name: 'install',
+        component: () =>
+            import ('../views/InstallView.vue')
+    },
+    {
         path: '/add-link',
         name: 'add-link',
         // route level code-splitting

@@ -1,15 +1,15 @@
 <template>
   <div class="home">
     <HeadBar
-      title="海芯导航"
-      :searchVal="searchVal"
-      :activeIndex="activeIndex"
+        title="海芯导航"
+        :searchVal="searchVal"
+        :activeIndex="activeIndex"
     />
     <div class="bg-banner"></div>
     <div class="line"></div>
     <el-row
-      :gutter="16"
-      style="
+        :gutter="16"
+        style="
         margin: 0;
         padding-right: 3rem;
         width: 98%;
@@ -24,18 +24,18 @@
       <div class="main-search">
         <el-row style="min-width: 400px; padding: 14px 50px 20px">
           <el-input
-            placeholder="搜索关键词"
-            :value="searchVal"
-            class="input-with-select"
-            suffix-icon="el-icon-search"
-            size="large"
-            style="border: none"
+              placeholder="搜索关键词"
+              :value="searchVal"
+              class="input-with-select"
+              suffix-icon="el-icon-search"
+              size="large"
+              style="border: none"
           />
           <div class="history">
             <div v-for="o in quikList" :key="o">
               <!-- <i class="el-icon-search"></i> -->
               <el-link :href="o.href" target="_blank" style="font-size: 10px"
-                >{{ o.name }}
+              >{{ o.name }}
               </el-link>
             </div>
           </div>
@@ -45,42 +45,42 @@
       <div style="flex: 1; border-left: 1px solid #ccc; padding-left: 20px">
         <h3 style="margin-left: 10px">
           <svg
-            t="1650003512498"
-            class="icon"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            p-id="2554"
-            width="20"
-            height="20"
-            style="position: relative; top: 4px"
+              t="1650003512498"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="2554"
+              width="20"
+              height="20"
+              style="position: relative; top: 4px"
           >
             <path
-              d="M194.889274 0v1024l317.082033-224.864391 317.139419 224.864391V0z"
-              p-id="2555"
-              fill="#1296db"
+                d="M194.889274 0v1024l317.082033-224.864391 317.139419 224.864391V0z"
+                p-id="2555"
+                fill="#1296db"
             ></path>
           </svg>
           标签
         </h3>
         <el-tag
-          size="small"
-          v-for="c in cates"
-          :key="c"
-          @click="goAnchor('#anchor' + c.Cate)"
-          style="margin: 0.4rem 0.6rem; color: #fff; font-weight: 700"
-          :style="{
+            size="small"
+            v-for="c in cates"
+            :key="c"
+            @click="goAnchor('#anchor' + c.Cate)"
+            style="margin: 0.4rem 0.6rem; color: #fff; font-weight: 700"
+            :style="{
             'background-color': colorlists[Math.floor(Math.random() * 10)],
           }"
-          >{{ c.Catename }}
+        >{{ c.Catename }}
         </el-tag>
       </div>
     </el-row>
     <div>
       <el-row v-for="c in cates" :key="c">
         <section
-          :id="'anchor' + c.Cate"
-          style="
+            :id="'anchor' + c.Cate"
+            style="
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
@@ -90,9 +90,9 @@
           "
         >
           <img
-            src="../assets/tag-blue.png"
-            alt=""
-            style="
+              src="../assets/tag-blue.png"
+              alt=""
+              style="
               display: inline-block;
               width: 10px;
               height: 20px;
@@ -103,7 +103,7 @@
           <div style="font-weight: 700; font-size: 18px">{{ c.Catename }}</div>
         </section>
         <el-row
-          style="
+            style="
             width: 100%;
             display: flex;
             flex-direction: row;
@@ -119,10 +119,10 @@
                 <el-row :gutter="24">
                   <el-col :span="4">
                     <el-avatar
-                      style="background-color: #fff"
-                      :src="o.Logo"
-                      fit="cover"
-                      shape="square"
+                        style="background-color: #fff"
+                        :src="o.Logo"
+                        fit="cover"
+                        shape="square"
                     ></el-avatar>
                   </el-col>
                   <el-col :span="12">
@@ -132,40 +132,40 @@
                     </div>
                   </el-col>
                   <el-col
-                    :span="8"
-                    style="padding: 10px 0 0; text-align: center"
+                      :span="8"
+                      style="padding: 10px 0 0; text-align: center"
                   >
                     <div class="bottom clearfix">
                       <el-button
-                        v-if="showBtn != true"
-                        icon=""
-                        size="mini"
-                        circle
-                        class="button"
-                        @click="jumpTo(o.Url)"
-                        icon="el-icon-arrow-right"
-                      >
-                      </el-button>
-                      <el-button-group v-else>
-                        <el-button
+                          v-if="showBtn != true"
+                          icon=""
                           size="mini"
                           circle
                           class="button"
                           @click="jumpTo(o.Url)"
                           icon="el-icon-arrow-right"
+                      >
+                      </el-button>
+                      <el-button-group v-else>
+                        <el-button
+                            size="mini"
+                            circle
+                            class="button"
+                            @click="jumpTo(o.Url)"
+                            icon="el-icon-arrow-right"
                         >
                         </el-button>
                         <el-button
-                          icon="el-icon-edit"
-                          size="mini"
-                          circle
-                          @click="openDrawer(o)"
+                            icon="el-icon-edit"
+                            size="mini"
+                            circle
+                            @click="openDrawer(o)"
                         ></el-button>
                         <el-button
-                          icon="el-icon-delete"
-                          size="mini"
-                          circle
-                          @click="deleteNav(o.Id)"
+                            icon="el-icon-delete"
+                            size="mini"
+                            circle
+                            @click="deleteNav(o.Id)"
                         ></el-button>
                       </el-button-group>
                     </div>
@@ -187,85 +187,85 @@
     </div>
     <div class="" style="position: fixed; right: 40px; bottom: 60px">
       <el-button
-        type="primary"
-        icon="el-icon-edit-outline"
-        circle
-        @click="handOffBtn"
+          type="primary"
+          icon="el-icon-edit-outline"
+          circle
+          @click="handOffBtn"
       ></el-button>
     </div>
     <!-- 悬浮按钮结束 -->
     <!-- 这里是弹出层 -->
     <div class="drawer">
       <el-drawer
-        title="修改导航"
-        :visible.sync="dialog"
-        direction="rtl"
-        custom-class="demo-drawer"
-        ref="drawer"
+          title="修改导航"
+          :visible.sync="dialog"
+          direction="rtl"
+          custom-class="demo-drawer"
+          ref="drawer"
       >
         <div class="demo-drawer__content" style="padding: 30px">
           <el-form
-            :model="ruleForm"
-            status-icon
-            :rules="rules"
-            ref="ruleForm"
-            label-width="100px"
-            class="demo-ruleForm"
+              :model="ruleForm"
+              status-icon
+              :rules="rules"
+              ref="ruleForm"
+              label-width="100px"
+              class="demo-ruleForm"
           >
             <el-form-item label="标题" prop="name">
               <el-input
-                type="input"
-                v-model="ruleForm.name"
-                autocomplete="off"
+                  type="input"
+                  v-model="ruleForm.name"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="图标" prop="logo">
               <el-input
-                type="input"
-                v-model="ruleForm.logo"
-                autocomplete="off"
+                  type="input"
+                  v-model="ruleForm.logo"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="简述" prop="desc">
               <el-input
-                type="input"
-                v-model="ruleForm.desc"
-                autocomplete="off"
+                  type="input"
+                  v-model="ruleForm.desc"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="地址" prop="url">
               <el-input
-                type="input"
-                v-model="ruleForm.url"
-                autocomplete="off"
+                  type="input"
+                  v-model="ruleForm.url"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="分类ID" prop="cate">
               <el-input
-                type="number"
-                v-model="ruleForm.cate"
-                autocomplete="off"
+                  type="number"
+                  v-model="ruleForm.cate"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="分类名称" prop="catename">
               <el-input
-                type="input"
-                v-model="ruleForm.catename"
-                autocomplete="off"
+                  type="input"
+                  v-model="ruleForm.catename"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
           </el-form>
           <div class="demo-drawer__footer" style="float: right">
             <el-button @click="cancelForm">取 消</el-button>
             <el-button type="primary" @click="submitForm('ruleForm')"
-              >确 定</el-button
-            >
+            >确 定
+            </el-button>
           </div>
         </div>
       </el-drawer>
     </div>
     <!-- 这里弹出层结束 -->
-    <FootBar />
+    <FootBar/>
   </div>
   <!-- <div class="loadding" v-else>
     <div  v-loading="loading"></div>
@@ -367,21 +367,21 @@ export default {
           console.log(this.ruleForm);
           this.ruleForm.cate = parseInt(this.ruleForm.cate);
           this.$store
-            .dispatch("nav/editLink", JSON.stringify(this.ruleForm))
-            .then((response) => {
-              console.log(response);
-              self.$notify({
-                title: "成功",
-                message: "手动刷新页面查看",
-                type: "success",
+              .dispatch("nav/editLink", JSON.stringify(this.ruleForm))
+              .then((response) => {
+                console.log(response);
+                self.$notify({
+                  title: "成功",
+                  message: "手动刷新页面查看",
+                  type: "success",
+                });
+                self.cancelForm();
+                self.getData();
+              })
+              .catch((res) => {
+                console.log(res);
+                this.$message.error("失败");
               });
-              self.cancelForm();
-              self.getData();
-            })
-            .catch((res) => {
-              console.log(res);
-              this.$message.error("失败");
-            });
         } else {
           console.log("error submit!!");
           return false;
@@ -394,28 +394,29 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       })
-        .then(() => {
-          this.deleteNavData(id);
-        })
-        .catch(() => {});
+          .then(() => {
+            this.deleteNavData(id);
+          })
+          .catch(() => {
+          });
     },
     deleteNavData(id) {
       self = this;
       this.$store
-        .dispatch("nav/delLink", "id=" + id)
-        .then((response) => {
-          console.log(response);
-          self.$notify({
-            title: "成功",
-            message: "",
-            type: "success",
+          .dispatch("nav/delLink", "id=" + id)
+          .then((response) => {
+            console.log(response);
+            self.$notify({
+              title: "成功",
+              message: "",
+              type: "success",
+            });
+            self.getData();
+          })
+          .catch((res) => {
+            console.log(res);
+            this.$message.error("失败");
           });
-          self.getData();
-        })
-        .catch((res) => {
-          console.log(res);
-          this.$message.error("失败");
-        });
     },
     handOffBtn() {
       console.log("打开操作" + this.showBtn);
@@ -438,23 +439,23 @@ export default {
     getData() {
       let self = this;
       this.axios
-        .post("/api/home")
-        .then(function (response) {
-          // console.log(response);
-          self.navs = response.data.data.navs;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .post("/api/home")
+          .then(function (response) {
+            // console.log(response);
+            self.navs = response.data.data.navs;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       this.axios
-        .post("/api/cates")
-        .then(function (response) {
-          // console.log(response);
-          self.cates = response.data.data.cates;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .post("/api/cates")
+          .then(function (response) {
+            // console.log(response);
+            self.cates = response.data.data.cates;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     },
   },
   created: function () {
@@ -515,8 +516,7 @@ export default {
 .bg-banner {
   width: 100%;
   height: 400px;
-  background: url("https://cdn.jsdelivr.net/gh/hututu-tech/IMG-gongfeng@main/2022/04/11/6253fd6c6f522.jpg")
-    no-repeat center center;
+  background: url("https://cdn.jsdelivr.net/gh/hututu-tech/IMG-gongfeng@main/2022/04/11/6253fd6c6f522.jpg") no-repeat center center;
   background-size: cover;
 }
 
@@ -531,11 +531,13 @@ export default {
   background-color: #fff;
   border-radius: 5px;
 }
+
 .history {
   display: flex;
   flex-direction: row;
   align-items: left;
 }
+
 .history > div {
   /* width: 80px; */
   margin: 10px 20px 0 0;
