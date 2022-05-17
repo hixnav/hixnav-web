@@ -35,7 +35,7 @@ export default {
     return {
       config: {
         addr:"127.0.0.1:3306",
-        dbname:"hxinav",
+        dbname:"hixnav",
         account:"root",
         isMigrate: false,
       },

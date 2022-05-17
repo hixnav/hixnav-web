@@ -15,3 +15,11 @@ export function dbMigrate(data) {
         data
     })
 }
+
+export function cosMigrate(data) {
+    return request({
+        url: '/api/config/oss',
+        method: 'post',
+        data
+    })
+}

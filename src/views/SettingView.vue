@@ -84,20 +84,20 @@
 
           <el-main v-if="showMain == 3">
             <!-- 存储配置 -->
-            <el-form ref="form" :model="form" label-width="100px">
+            <el-form ref="form" :model="config" label-width="100px">
               <el-form-item label="存储地址" style="width: 60%;">
-                <el-input v-model="form.addr"></el-input>
+                <el-input v-model="config.cos" placeholder="请输入地址，https://%s-***.cos.ap-***.myqcloud.com/"></el-input>
               </el-form-item>
               <el-form-item label="AccessKey" style="width: 60%;">
-                <el-input v-model="form.account"></el-input>
+                <el-input v-model="config.cosSecretID" placeholder="请输入SecretID"></el-input>
               </el-form-item>
               <el-form-item label="SecretKey" style="width: 60%;">
-                <el-input type="password" v-model="form.password"></el-input>
+                <el-input type="password" v-model="config.cosSecretKey" placeholder="请输入SecretKey"></el-input>
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" size="small" @click="onSubmit">保存</el-button>
-                <el-button type="plain" size="small" @click="onInitHandle">初始化</el-button>
+                <el-button type="primary" size="small" @click="onSubmit">保存并初始化数据</el-button>
+<!--                <el-button type="plain" size="small" @click="onInitHandle">初始化</el-button>-->
               </el-form-item>
             </el-form>
           </el-main>
@@ -142,7 +142,7 @@ export default {
           uid: "4",
         },
       ],
-      form:{},
+      config:{},
     };
   },
   methods: {
@@ -163,6 +163,19 @@ export default {
     exportDBData(){
       console.log('export db data')
     },
+    onSubmit() {
+      this.$store
+          .dispatch("config/cosMigrate", JSON.stringify(this.config))
+          .then((response) => {
+            console.log(response);
+            if (response.code == 0){
+              this.$message.success("success");
+            }
+          })
+          .catch((res) => {
+            console.log(res);
+          });
+    }
   },
 };
 </script>
