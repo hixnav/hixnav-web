@@ -42,7 +42,7 @@ jobs:
         git commit -m "update pkg/bindata.go"
         
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@main
       with:
         github_token: ${{ secrets.REPO }}
         branch: ${{ github.ref }}
