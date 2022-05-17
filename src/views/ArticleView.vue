@@ -295,7 +295,7 @@ export default {
 .bg-banner {
   width: 100%;
   height: 400px;
-  background: url("https://cdn.jsdelivr.net/gh/hututu-tech/IMG-gongfeng@main/2022/04/11/6253f8cf04baa.jpg")
+  background: url("https://picshack.net/ib/aOjphDH3MB.jpg")
     no-repeat center center;
   background-size: cover;
 }
