@@ -38,20 +38,20 @@
             </el-button
             >
             <el-table
-                :data="tableData"
+                :data="userList"
                 style="width: 100%; margin-top: 20px"
                 :row-class-name="tableRowClassName"
             >
-              <el-table-column prop="uid" label="序号" width="180">
+              <el-table-column prop="Id" label="序号" width="180">
               </el-table-column>
-              <el-table-column prop="account" label="账号" width="180">
+              <el-table-column prop="Account" label="账号" width="180">
               </el-table-column>
 
-              <el-table-column prop="date" label="添加时间"></el-table-column>
+              <el-table-column prop="CreateTime" label="添加时间"></el-table-column>
               <el-table-column fixed="right" prop="" label="操作">
                 <template slot-scope="scope">
                   <el-button
-                      @click.native.prevent="deleteRow(scope.$index, tableData)"
+                      @click.native.prevent="deleteUserRow(scope.$index, userList)"
                       type="text"
                       size="small"
                   >
@@ -120,7 +120,7 @@ export default {
       searchVal: "",
       activeIndex: "99",
       showMain:1,
-      tableData: [
+      userList: [
         {
           date: "2016-05-02",
           account: "wangxiaohu",
@@ -175,8 +175,37 @@ export default {
           .catch((res) => {
             console.log(res);
           });
+    },
+
+    listUser() {
+      let self = this;
+      this.$store
+          .dispatch("user/listUser",{})
+          .then((response) => {
+            console.log(response);
+            self.userList = response.data.users;
+          })
+          .catch((res) => {
+            console.log(res);
+          });
+    },
+
+    deleteUserRow(index, rows){
+      console.log(index, rows)
+      this.$store
+          .dispatch("user/delUser","id=" + rows[index].Id)
+          .then((response) => {
+            console.log(response);
+            self.userList = response.data.users;
+          })
+          .catch((res) => {
+            console.log(res);
+          });
     }
   },
+  created() {
+    this.listUser()
+  }
 };
 </script>
 

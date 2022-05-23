@@ -1,6 +1,7 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, addUser, delUser, listUser } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import {addLink} from "@/api/nav";
 
 const getDefaultState = () => {
   return {
@@ -64,6 +65,36 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         resolve(data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  addUser({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      addUser(data).then(response => {
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  delUser({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      delUser(data).then(response => {
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  listUser({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      listUser(data).then(response => {
+        resolve(response)
       }).catch(error => {
         reject(error)
       })
