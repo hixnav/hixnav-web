@@ -17,7 +17,7 @@
           >
           ©2202 海芯导航
           <a
-            href="https://github.com/hixnav/hixnav/blob/gh-pages/README.md"
+            href="https://github.com/hixnav/hixnav/blob/master/Donation.md"
             style="text-decoration: none; color: #c0c0c0"
             target="_blank"
             >捐赠</a
