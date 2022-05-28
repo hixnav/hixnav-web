@@ -33,7 +33,7 @@
         <el-container>
           <el-main v-if="showMain == 1">
             <!-- 主要内容 -->
-            <el-button type="primary" size="small"
+            <el-button type="primary" size="small" @click="openMultiUserDrawer"
             ><i class="el-icon-plus"></i>添加用户
             </el-button
             >
@@ -61,6 +61,37 @@
               </el-table-column>
             </el-table>
           </el-main>
+
+          <!-- 这里是弹出层 -->
+          <div class="drawer">
+            <el-drawer
+                title="添加用户"
+                :visible.sync="multiUserDialog"
+                direction="rtl"
+                custom-class="demo-drawer"
+                ref="drawer"
+            >
+              <div class="demo-drawer__content" style="padding: 30px">
+                <el-form :model="mutilUserForm">
+                  <el-form-item label="账号" :label-width="formLabelWidth">
+                    <el-input
+                        id="linked_name"
+                        v-model="mutilUserForm.account"
+                        autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="密码" :label-width="formLabelWidth">
+                    <el-input type="password" id="linked_url" v-model="mutilUserForm.passwd"></el-input>
+                  </el-form-item>
+                </el-form>
+                <div class="demo-drawer__footer" style="float: right">
+                  <el-button @click="cancelMultiUserDrawer">取 消</el-button>
+                  <el-button type="primary" @click="multiUserSubmit">确 定</el-button>
+                </div>
+              </div>
+            </el-drawer>
+          </div>
+          <!-- 这里弹出层结束 -->
 
           <el-main v-if="showMain == 2">
             <h3>如何完成数据迁移</h3>
@@ -120,6 +151,11 @@ export default {
       searchVal: "",
       activeIndex: "99",
       showMain:1,
+      multiUserDialog: false,
+      mutilUserForm: {
+        account: "",
+        passwd: "",
+      },
       userList: [
         {
           date: "2016-05-02",
@@ -195,13 +231,59 @@ export default {
       this.$store
           .dispatch("user/delUser","id=" + rows[index].Id)
           .then((response) => {
-            console.log(response);
-            self.userList = response.data.users;
+            if (response.code != 0) {
+              this.$message({
+                message:"用户删除失败",
+                type: 'warning'
+              })
+              return
+            }
+            this.multiUserDialog = false;
+            this.$message({
+              message:"用户删除成功",
+              type: 'success'
+            })
+            this.listUser()
           })
-          .catch((res) => {
-            console.log(res);
+          .catch(() => {
+            this.$message({
+              message:"用户删除失败",
+              type: 'warning'
+            })
           });
-    }
+    },
+    openMultiUserDrawer() {
+      this.multiUserDialog = true;
+    },
+    cancelMultiUserDrawer() {
+      this.multiUserDialog = false;
+    },
+    multiUserSubmit() {
+      this.$store
+          .dispatch("user/addUser", JSON.stringify(this.mutilUserForm))
+          .then((response) => {
+            console.log(response);
+            if (response.code != 0) {
+              this.$message({
+                message:"用户添加失败",
+                type: 'warning'
+              })
+              return
+            }
+            this.multiUserDialog = false;
+            this.$message({
+              message:"用户添加成功",
+              type: 'success'
+            })
+            this.listUser()
+          })
+          .catch(() => {
+            this.$message({
+              message:"用户添加失败",
+              type: 'warning'
+            })
+          });
+    },
   },
   created() {
     this.listUser()
