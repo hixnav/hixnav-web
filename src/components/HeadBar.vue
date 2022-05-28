@@ -1,77 +1,58 @@
 <template>
   <div class="head_bar">
-    <el-row :span="24">
-      <el-col :span="6">
-        <a href="/" style="text-decoration: none; color: #000">
-          <div style="padding: 0 10px 0 30px; float: left; align: center">
-            <div class="logo"></div>
-          </div>
-          <div
-            style="
-              line-height: 60px;
-              font-weight: 800;
-              font-size: 20px;
-              padding: 0 60px;
-              color: #333333;
-            "
-          >
-            <!-- <span>{{ title }}</span> -->
-          </div>
-        </a>
+    <el-row :gutter="10" type="flex" justify="space-between">
+      <el-col :xs="24" :sm="24" :md="6" :lg="6">
+       <h1 class="page-head">
+         <a href="/" style="text-decoration: none; color: #000">
+             <div class="logo" style="display: inline-block "></div>
+           <!--          <div-->
+           <!--            style="-->
+           <!--              line-height: 60px;-->
+           <!--              font-weight: 800;-->
+           <!--              font-size: 20px;-->
+           <!--              padding: 0 60px;-->
+           <!--              color: #333333;-->
+           <!--            "-->
+           <!--          >-->
+           <!--             <span>{{ title }}</span>-->
+           <!--          </div>-->
+         </a>
+         <i :class="iconview" @click="chanView"></i>
+       </h1>
       </el-col>
-      <el-col :span="6" style="padding: 14px 10px 0 30px; float: left">
-        <!-- <el-input
-          placeholder="搜索关键词"
-          :value="searchVal"
-          class="input-with-select"
-        />
-        <el-button slot="append" icon="el-icon-search"></el-button> -->
-      </el-col>
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        style="float: right; text-decoration: none"
-        text-color="#303133"
-        active-text-color="#409EFF"
-        @select="handleSelect"
-      >
-        <el-menu-item index="1"> 导航 </el-menu-item>
-        <el-menu-item index="2"> 快链 </el-menu-item>
-        <el-menu-item index="3"> 云存储 </el-menu-item>
-        <el-menu-item index="4"> 云图 </el-menu-item>
-        <el-menu-item index="5"> 云账号 </el-menu-item>
-        <!-- <el-menu-item index="4">
-          <router-link to="/docs">云笔记</router-link>
-        </el-menu-item> -->
-        <!-- <el-submenu index="10"> -->
-        <!-- <template slot="title">我的</template> -->
-        <!-- <el-menu-item index="2-0">博客</el-menu-item> -->
-        <!-- <el-menu-item index="2-1"
-            ><router-link to="/add-link">添加导航</router-link></el-menu-item
-          > -->
-        <!-- <el-menu-item index="2-2"
-            ><router-link to="/settting"
-              >设置中心</router-link
-            ></el-menu-item
-          > -->
-        <!-- </el-submenu> -->
-        <el-menu-item v-if="!this.$store.state.user.signin" index="9"
-          >登陆</el-menu-item
+      <div :class="menuview">
+        <el-col :xs="24" :sm="24" :md="24" :lg="24">
+        <el-menu
+            :default-active="activeIndex"
+            :mode="menumode"
+            style="text-decoration: none;"
+            text-color="#303133"
+            active-text-color="#409EFF"
+            @select="handleSelect"
         >
-        <el-menu-item v-else index="99">
-          <el-submenu>
+          <el-menu-item index="1"> 导航 </el-menu-item>
+          <el-menu-item index="2"> 快链 </el-menu-item>
+          <el-menu-item index="3"> 云存储 </el-menu-item>
+          <el-menu-item index="4"> 云图 </el-menu-item>
+          <el-menu-item index="5"> 云账号 </el-menu-item>
+          <el-menu-item v-if="!this.$store.state.user.signin" index="9"
+          >登陆</el-menu-item
+          >
+          <el-submenu v-else>
             <template slot="title">我的</template>
             <el-menu-item index="99-0">设置中心</el-menu-item>
             <el-menu-item index="10">退出</el-menu-item>
           </el-submenu>
-        </el-menu-item>
-      </el-menu>
+        </el-menu>
+      </el-col></div>
+
+
     </el-row>
   </div>
 </template>
 
 <script>
+import 'element-ui/lib/theme-chalk/display.css';
 export default {
   name: "HeadBar",
   props: {
@@ -80,7 +61,25 @@ export default {
     activeIndex: String,
     activeIndex2: String,
   },
+  data(){
+    return {
+      menumode: "horizontal",
+      menuview: "hidden-sm-and-down",
+      iconview: ["el-icon-s-unfold", "hidden-md-and-up"],
+    };
+  },
   methods: {
+    chanView() {
+      if (this.menuview != "menu-style") {
+        this.iconview[0] = "el-icon-s-fold";
+        this.menuview = "menu-style";
+        this.menumode = ""
+      } else {
+        this.iconview[0] = "el-icon-s-unfold";
+        this.menuview = "hidden-sm-and-down";
+        this.menumode = "horizontal"
+      }
+    },
     handleSelect: function (key, keyPath) {
       this.activeIndex = key;
       // console.log(keyPath);
@@ -141,13 +140,31 @@ export default {
 }
 .logo {
   width: 132px;
-  height: 30px;
-  padding-top: 12px;
-  margin-top: 10px;
+  height: 40px;
   background-image: url("../assets/logo.png");
   background-size: cover;
 }
 a {
+  color: #409eff;
   text-decoration: none;
 }
+.page-head{
+  display: flex;
+  justify-content: space-between;
+  font-size: 2em;
+  font-weight: 400;
+  margin: 10px 10px 0px 10px;
+}
+
+.page-head i {
+  line-height: 44px;
+}
+
+.menu-style{
+  position: fixed;
+  right: 0;
+  top:58px;
+  z-index: 999
+}
+
 </style>
