@@ -1,6 +1,5 @@
 import { getToken } from '@/utils/auth' 
 import router from './router'
-import store from './store'
 import NProgress from 'nprogress'
 
 const whiteList = ['/install','/signin','/']

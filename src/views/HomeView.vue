@@ -276,6 +276,8 @@
 // @ is an alias to /src
 import HeadBar from "@/components/HeadBar.vue";
 import FootBar from "@/components/FootBar.vue";
+import {getToken} from "@/utils/auth";
+import NProgress from "nprogress";
 
 export default {
   name: "HomeView",
@@ -320,10 +322,6 @@ export default {
       ],
       quikList: [
         {
-          href: "https://wennmu.github.io/",
-          name: "我的博客",
-        },
-        {
           href: "https://www.baidu.com",
           name: "百度",
         },
@@ -334,10 +332,6 @@ export default {
         {
           href: "https://fanyi.baidu.com/",
           name: "百度翻译",
-        },
-        {
-          href: "https://note.youdao.com/",
-          name: "有道云笔记",
         },
         {
           href: "https://mail.google.com/",
@@ -368,18 +362,15 @@ export default {
           this.ruleForm.cate = parseInt(this.ruleForm.cate);
           this.$store
               .dispatch("nav/editLink", JSON.stringify(this.ruleForm))
-              .then((response) => {
-                console.log(response);
-                self.$notify({
-                  title: "成功",
-                  message: "手动刷新页面查看",
+              .then(() => {
+                self.$message({
+                  message: "保存成功",
                   type: "success",
                 });
                 self.cancelForm();
                 self.getData();
               })
-              .catch((res) => {
-                console.log(res);
+              .catch(() => {
                 this.$message.error("失败");
               });
         } else {
@@ -406,9 +397,8 @@ export default {
           .dispatch("nav/delLink", "id=" + id)
           .then((response) => {
             console.log(response);
-            self.$notify({
-              title: "成功",
-              message: "",
+            self.$message({
+              message: "成功",
               type: "success",
             });
             self.getData();
@@ -419,7 +409,10 @@ export default {
           });
     },
     handOffBtn() {
-      console.log("打开操作" + this.showBtn);
+      const hasToken = getToken()
+      if (!hasToken) {
+        this.$router.push("signin")
+      }
       if (this.showBtn == false) {
         this.showBtn = true;
       } else {
