@@ -180,9 +180,7 @@
     <!-- 悬浮按钮 -->
     <div class="" style="position: fixed; right: 40px; bottom: 108px">
       <el-button-group>
-        <router-link to="/add-link">
-          <el-button type="primary" icon="el-icon-plus" circle></el-button>
-        </router-link>
+          <el-button type="primary" icon="el-icon-plus" circle @click="openAddNavDialog"></el-button>
       </el-button-group>
     </div>
     <div class="" style="position: fixed; right: 40px; bottom: 60px">
@@ -194,6 +192,77 @@
       ></el-button>
     </div>
     <!-- 悬浮按钮结束 -->
+    <!-- 这里是弹出层 -->
+    <div class="drawer">
+      <el-drawer
+          title="添加导航"
+          :visible.sync="addNavDialog"
+          direction="rtl"
+          custom-class="demo-drawer"
+          ref="drawer"
+      >
+        <div class="demo-drawer__content" style="padding: 30px">
+          <el-form
+              :model="ruleForm"
+              status-icon
+              :rules="rules"
+              ref="ruleForm"
+              label-width="100px"
+              class="demo-ruleForm"
+          >
+            <el-form-item label="标题" prop="name">
+              <el-input
+                  type="input"
+                  v-model="ruleForm.name"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="图标" prop="logo">
+              <el-input
+                  type="input"
+                  v-model="ruleForm.logo"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="简述" prop="desc">
+              <el-input
+                  type="input"
+                  v-model="ruleForm.desc"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="地址" prop="url">
+              <el-input
+                  type="input"
+                  v-model="ruleForm.url"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="分类ID" prop="cate">
+              <el-input
+                  type="number"
+                  v-model="ruleForm.cate"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="分类名称" prop="catename">
+              <el-input
+                  type="input"
+                  v-model="ruleForm.catename"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
+          </el-form>
+          <div class="demo-drawer__footer" style="float: right">
+            <el-button @click="cancelForm">取 消</el-button>
+            <el-button type="primary" @click="addNav('ruleForm')"
+            >确 定
+            </el-button>
+          </div>
+        </div>
+      </el-drawer>
+    </div>
+    <!-- 这里弹出层结束 -->
     <!-- 这里是弹出层 -->
     <div class="drawer">
       <el-drawer
@@ -291,6 +360,7 @@ export default {
       activeIndex: "1",
       showBtn: false,
       // 弹出层控制
+      addNavDialog: false,
       dialog: false,
       ruleForm: {
         id: 0,
@@ -353,6 +423,7 @@ export default {
     },
     cancelForm() {
       this.dialog = false;
+      this.addNavDialog = false;
     },
     submitForm(formName) {
       self = this;
@@ -378,6 +449,32 @@ export default {
           return false;
         }
       });
+    },
+    addNavData(formName) {
+      let self = this;
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.ruleForm.cate = parseInt(this.ruleForm.cate);
+          this.$store
+              .dispatch("nav/addLink", JSON.stringify(this.ruleForm))
+              .then(() => {
+                self.$message.success({
+                  message: "成功",
+                });
+                self.getData();
+                this.addNavDialog = false
+              })
+              .catch(() => {
+                this.$message.error("失败");
+              });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    addNav(formName) {
+      this.addNavData(formName);
     },
     deleteNav(id) {
       this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
@@ -407,6 +504,14 @@ export default {
             console.log(res);
             this.$message.error("失败");
           });
+    },
+    openAddNavDialog(){
+      const hasToken = getToken()
+      if (!hasToken) {
+        this.$router.push("signin")
+      }
+      this.ruleForm = {};
+      this.addNavDialog = true
     },
     handOffBtn() {
       const hasToken = getToken()
