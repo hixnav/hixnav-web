@@ -159,8 +159,8 @@
           <el-form :model="form">
             <el-form-item label="类别" :label-width="formLabelWidth">
               <el-select v-model="form.type" placeholder="类别">
-                <el-option label="文档" value="2"></el-option>
                 <el-option label="链接" value="1"></el-option>
+                <el-option label="文档" value="2"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="标签" :label-width="formLabelWidth">
@@ -223,7 +223,7 @@ export default {
       formLabelWidth: "80px",
       form: {
         name: "",
-        type: 1,
+        type: "1",
         url: "",
       },
     };

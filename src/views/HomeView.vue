@@ -131,11 +131,11 @@
             <el-form-item label="地址" prop="url">
               <el-input type="input" v-model="ruleForm.url" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="分类ID" prop="cate">
-              <el-input type="number" v-model="ruleForm.cate" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="分类名称" prop="catename">
-              <el-input type="input" v-model="ruleForm.catename" autocomplete="off"></el-input>
+            <el-form-item label="分类名称" prop="">
+              <el-select v-model="ruleForm.cate" placeholder="请选择">
+                <el-option v-for="(item, index) in cates" :key="index" :label="item.Catename"
+                  :value="item.Cate"></el-option>
+              </el-select>
             </el-form-item>
           </el-form>
           <div class="demo-drawer__footer" style="float: right">
@@ -301,6 +301,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.ruleForm.cate = parseInt(this.ruleForm.cate);
+          const option = this.cates.find(item => item.Cate === this.ruleForm.cate)
+          this.ruleForm.catename = option.Catename
           this.$store
             .dispatch("nav/addLink", JSON.stringify(this.ruleForm))
             .then(() => {
