@@ -33,6 +33,7 @@
             <el-submenu v-else>
               <template slot="title">我的</template>
               <el-menu-item index="99-0">设置中心</el-menu-item>
+              <el-menu-item index="99-1">导出链接</el-menu-item>
               <el-menu-item index="10">退出</el-menu-item>
             </el-submenu>
           </el-menu>
