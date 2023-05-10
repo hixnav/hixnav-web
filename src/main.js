@@ -11,6 +11,7 @@ import '@/perm'
 
 
 Vue.config.productionTip = false
+Vue.config.silent=true
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios)
 

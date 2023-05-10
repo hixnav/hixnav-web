@@ -23,3 +23,11 @@ export function delLink(data) {
         data
     })
 }
+
+export function exportLink(data) {
+    return request({
+        url: '/api/exportLink',
+        method: 'post',
+        data
+    })
+}

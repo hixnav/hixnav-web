@@ -33,7 +33,8 @@
             <el-submenu v-else>
               <template slot="title">我的</template>
               <el-menu-item index="99-0">设置中心</el-menu-item>
-              <el-menu-item index="99-1">导出链接</el-menu-item>
+              <el-menu-item index="99-1">导出导航</el-menu-item>
+              <el-menu-item index="99-2">导出链接</el-menu-item>
               <el-menu-item index="10">退出</el-menu-item>
             </el-submenu>
           </el-menu>
@@ -45,6 +46,7 @@
 
 <script>
 import 'element-ui/lib/theme-chalk/display.css';
+let Base64 = require('js-base64').Base64
 export default {
   name: "HeadBar",
   props: {
@@ -101,6 +103,12 @@ export default {
       if (key == "99-0") {
         this.$router.push("/setting");
       }
+      if (key == "99-1") {
+        this.exportLink();
+      }
+      if (key == "99-2") {
+        this.exportArticleLink();
+      }
       // if (key == "2-1") {
       //   location.href = "./add-link";
       // }
@@ -113,6 +121,57 @@ export default {
       if (key == 10) {
         this.logout();
       }
+    },
+    exportLink(){
+      self = this;
+      this.$store
+        .dispatch("nav/exportLink", {})
+        .then((response) => {
+          console.log(response);
+          if (response.code != 200) {
+            this.$message.error(response.msg);
+          }
+          self.writeFileAndDownload(response.data, "导航")
+        })
+        .catch((res) => {
+          console.log(res);
+          this.$message.error(res);
+        });
+    },
+    exportArticleLink(){
+      self = this;
+      this.$store
+        .dispatch("link/exportArticleLink", {})
+        .then((response) => {
+          console.log(response);
+          if (response.code != 200) {
+            this.$message.error(response.msg);
+          }
+          self.writeFileAndDownload(response.data, "快链")
+        })
+        .catch((res) => {
+          console.log(res);
+          this.$message.error(res);
+        });
+    },
+    writeFileAndDownload(data, filename){
+        // 将数据写入 JSON 文件
+        // 解码 base64 字符串
+        data = Base64.decode(data);
+        let blob = new Blob([data], { type: "application/json" });
+        let fileName = filename + ".json";
+        if (window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveBlob(blob, fileName);
+        } else {
+          let url = window.URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        } 
     },
     logout: function () {
       this.$store

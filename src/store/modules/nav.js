@@ -1,4 +1,4 @@
-import { addLink, editLink, delLink } from '@/api/nav'
+import { addLink, editLink, delLink, exportLink } from '@/api/nav'
 
 const getDefaultState = () => {
     return {
@@ -34,6 +34,16 @@ const actions = {
     delLink({ commit }, data) {
         return new Promise((resolve, reject) => {
             delLink(data).then(response => {
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
+
+    exportLink({ commit }, data) {
+        return new Promise((resolve, reject) => {
+            exportLink(data).then(response => {
                 resolve(response)
             }).catch(error => {
                 reject(error)

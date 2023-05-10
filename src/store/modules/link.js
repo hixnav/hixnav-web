@@ -1,4 +1,4 @@
-import { addArticleLink, article } from '@/api/link'
+import { addArticleLink, article, exportArticleLink } from '@/api/link'
 
 const getDefaultState = () => {
     return {}
@@ -22,6 +22,16 @@ const actions = {
     article({ commit }, data) {
         return new Promise((resolve, reject) => {
             article(data).then(response => {
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
+
+    exportArticleLink({ commit }, data) {
+        return new Promise((resolve, reject) => {
+            exportArticleLink(data).then(response => {
                 resolve(response)
             }).catch(error => {
                 reject(error)

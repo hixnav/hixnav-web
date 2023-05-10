@@ -15,3 +15,12 @@ export function article(data) {
         data
     })
 }
+
+
+export function exportArticleLink(data) {
+    return request({
+        url: '/api/exportArticleLink',
+        method: 'post',
+        data
+    })
+}
