@@ -64,6 +64,10 @@
                 ></el-avatar>
                 {{ o.Name }}</el-link
               >
+              <el-button-group v-if="showBtn">
+                <el-button class="operator-btn" type="text" icon="el-icon-edit" size="mini" circle @click="openDrawer(o)"></el-button>
+                <el-button class="operator-btn" type="text" icon="el-icon-delete" size="mini" circle @click="deleteNav(o.Id)"></el-button>
+              </el-button-group>
             </el-descriptions-item>
           </el-descriptions>
         </div>
@@ -129,6 +133,10 @@
                 ></el-avatar>
                 {{ o.Name }}</el-link
               >
+                  <el-button-group v-if="showBtn">
+                    <el-button class="operator-btn" type="text" icon="el-icon-edit" size="mini" circle @click="openDrawer(o)"></el-button>
+                    <el-button class="operator-btn" type="text" icon="el-icon-delete" size="mini" circle @click="deleteLink(o.Id)"></el-button>
+                  </el-button-group>
             </el-descriptions-item>
           </el-descriptions>
         </div>
@@ -140,10 +148,13 @@
     <el-button
       style="position: fixed; right: 40px; bottom: 108px; z-index: 9999"
       type="primary"
-      icon="el-icon-edit"
+      icon="el-icon-plus"
       circle
       @click="openAddDrawer"
     ></el-button>
+    <div class="" style="position: fixed; right: 40px; bottom: 60px">
+      <el-button type="primary" icon="el-icon-edit-outline" circle @click="handOffBtn"></el-button>
+    </div>
     <!-- </div> -->
     <!-- 悬浮按钮结束 -->
     <!-- 这里是弹出层 -->
@@ -197,6 +208,7 @@
 <script>
 import HeadBar from "@/components/HeadBar.vue";
 import FootBar from "@/components/FootBar.vue";
+import {getToken} from "@/utils/auth";
 export default {
   name: "ArticleView",
   components: {
@@ -207,6 +219,7 @@ export default {
     return {
       searchVal: "",
       activeIndex: "2",
+      showBtn: false,
       // 链接
       linkCates: [
         // {
@@ -229,9 +242,59 @@ export default {
     };
   },
   methods: {
+    openDrawer(row) {
+      this.form.id = row.Id;
+      this.form.name = row.Name;
+      this.form.type = row.Type;
+      this.form.url = row.Url;
+      this.form.Logo = row.Logo;
+      this.form.catename = row.Catename;
+      this.dialog = true;
+    },
+    deleteLink(id) {
+      this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+          .then(() => {
+            this.deleteLinkData(id);
+          })
+          .catch(() => {
+          });
+    },
+    deleteLinkData(id) {
+      self = this;
+      this.$store
+          .dispatch("link/delArticleLink", "id=" + id)
+          .then((response) => {
+            this.getLinks()
+            console.log(response);
+            self.$message({
+              message: "成功",
+              type: "success",
+            });
+            self.getData();
+          })
+          .catch((err) => {
+            console.log(err);
+            // this.$message.error("失败");
+          });
+    },
     openAddDrawer() {
       console.log("drawer");
       this.dialog = true;
+    },
+    handOffBtn() {
+      const hasToken = getToken()
+      if (!hasToken) {
+        this.$router.push("signin")
+      }
+      if (this.showBtn == false) {
+        this.showBtn = true;
+      } else {
+        this.showBtn = false;
+      }
     },
     cancelForm() {
       this.dialog = false;
@@ -248,6 +311,7 @@ export default {
       this.$store
         .dispatch("link/addArticleLink", JSON.stringify(this.form))
         .then((response) => {
+          this.getLinks()
           console.log(response);
           self.dialog = false;
           self.$notify({
@@ -261,25 +325,28 @@ export default {
           this.$message.error("失败");
         });
     },
+    getLinks() {
+      self = this;
+      this.$store
+          .dispatch("link/article", { Type: 2 })
+          .then((response) => {
+            self.docLinks = response.data.links;
+          })
+          .catch((res) => {
+            console.log(res);
+          });
+      this.$store
+          .dispatch("link/article", { Type: 1, Catename: "" })
+          .then((response) => {
+            self.commonLinks = response.data.links;
+          })
+          .catch((res) => {
+            console.log(res);
+          });
+    },
   },
   created() {
-    self = this;
-    this.$store
-      .dispatch("link/article", { Type: 2 })
-      .then((response) => {
-        self.docLinks = response.data.links;
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-    this.$store
-      .dispatch("link/article", { Type: 1, Catename: "" })
-      .then((response) => {
-        self.commonLinks = response.data.links;
-      })
-      .catch((res) => {
-        console.log(res);
-      });
+    this.getLinks()
   },
 };
 </script>
@@ -303,5 +370,9 @@ export default {
 .main_card {
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
   padding: 20px;
+}
+
+.operator-btn {
+  color: #666666;
 }
 </style>

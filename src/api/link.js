@@ -24,3 +24,11 @@ export function exportArticleLink(data) {
         data
     })
 }
+
+export function delArticleLink(data) {
+    return request({
+        url: '/api/delArticleLink',
+        method: 'post',
+        data
+    })
+}
