@@ -45,7 +45,8 @@ jobs:
           # git add pkg/bindata.go
           # git add go.sum
           git add ./dist/*
-          git commit -m "update pkg/bindata.go"
+          git commit -m "build"
+          # git commit -m "update pkg/bindata.go"
         
       - name: Push changes
         uses: ad-m/github-push-action@master
