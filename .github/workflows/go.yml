@@ -25,10 +25,12 @@ jobs:
         uses: actions/setup-node@v4.0.2
         with:
           node-version: 20
+          
+      - name: npm build
         run: |
           npm install && npm run build
           
-      - name: build
+      - name: go build
         run: |
           go get -u github.com/jteeuwen/go-bindata/...
           go get -u github.com/elazarl/go-bindata-assetfs/...
