@@ -30,14 +30,11 @@ jobs:
         run: |
           go get -u github.com/jteeuwen/go-bindata/...
           go get -u github.com/elazarl/go-bindata-assetfs/...
-          
-      - name: Set GOBIN
-        run: echo "::set-env name=GOBIN::$(go env GOPATH)/bin"
         
       - name: build
         run: |
           npm install && npm run build
-          go-bindata -o pkg/bindata.go -pkg pkg ./dist/...
+          ${GOPATH}/bin/go-bindata -o pkg/bindata.go -pkg pkg ./dist/...
     
       - name: Commit files
         run: |
