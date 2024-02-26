@@ -1,34 +1,16 @@
-# 海芯导航前端
+# Haixin Navigation Front End Code
 
-## 安装依赖
+## Install
 ```
 npm install
 ```
 
-### 运行
+### Run
 ```
 npm run serve
 ```
 
-### 编译产物
+### Build
 ```
 npm run build
-```
-
-### 编译Go SDK包
-#### 安装Golang
-
-转至[下载](https://go.dev/dl/)
-
-
-#### 安装依赖
-```shell
-go get -u github.com/jteeuwen/go-bindata/...
-go get -u github.com/elazarl/go-bindata-assetfs/...
-```
-
-###### 编译打包
-
-```shell
- go-bindata -o pkg/bindata.go -pkg pkg ./dist/...
 ```
