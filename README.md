@@ -1,5 +1,8 @@
-# Haixin Navigation Front End Code
+# HixNav
 
+>
+>Haixin Navigation Front End Code
+>
 ## Install
 ```
 npm install
