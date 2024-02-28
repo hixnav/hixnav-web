@@ -8,6 +8,14 @@ export function addArticleLink(data) {
     })
 }
 
+export function editArticleLink(data) {
+    return request({
+        url: '/api/editArticleLink',
+        method: 'post',
+        data
+    })
+}
+
 export function article(data) {
     return request({
         url: '/api/article',

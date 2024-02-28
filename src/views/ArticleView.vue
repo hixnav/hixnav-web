@@ -160,11 +160,11 @@
     <!-- 这里是弹出层 -->
     <div class="drawer">
       <el-drawer
-        title="添加文链"
-        :visible.sync="dialog"
-        direction="rtl"
-        custom-class="demo-drawer"
-        ref="drawer"
+          :title="showDialog === 'add' ? '添加文链' : '修改文链'"
+          :visible.sync="dialog"
+          direction="rtl"
+          custom-class="demo-drawer"
+          ref="drawer"
       >
         <div class="demo-drawer__content" style="padding: 30px">
           <el-form :model="form">
@@ -176,16 +176,16 @@
             </el-form-item>
             <el-form-item label="标签" :label-width="formLabelWidth">
               <el-input
-                id="linked_label"
-                v-model="form.catename"
-                autocomplete="off"
+                  id="linked_label"
+                  v-model="form.catename"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="名称" :label-width="formLabelWidth">
               <el-input
-                id="linked_name"
-                v-model="form.name"
-                autocomplete="off"
+                  id="linked_name"
+                  v-model="form.name"
+                  autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="地址" :label-width="formLabelWidth">
@@ -194,13 +194,13 @@
           </el-form>
           <div class="demo-drawer__footer" style="float: right">
             <el-button @click="cancelForm">取 消</el-button>
-            <el-button type="primary" @click="linkedSubmit">确 定</el-button>
+            <el-button type="primary" v-if="showDialog === 'add'" @click="linkedSubmit">添 加</el-button>
+            <el-button type="primary" v-else @click="linkedSave">保 存</el-button>
           </div>
         </div>
       </el-drawer>
     </div>
     <!-- 这里弹出层结束 -->
-
     <FootBar />
   </div>
 </template>
@@ -220,6 +220,7 @@ export default {
       searchVal: "",
       activeIndex: "2",
       showBtn: false,
+      showDialog: "add",
       // 链接
       linkCates: [
         // {
@@ -249,6 +250,7 @@ export default {
       this.form.url = row.Url;
       this.form.Logo = row.Logo;
       this.form.catename = row.Catename;
+      this.showDialog = "edit"
       this.dialog = true;
     },
     deleteLink(id) {
@@ -282,7 +284,7 @@ export default {
           });
     },
     openAddDrawer() {
-      console.log("drawer");
+      this.showDialog = "add"
       this.dialog = true;
     },
     handOffBtn() {
@@ -324,6 +326,32 @@ export default {
           console.log(res);
           this.$message.error("失败");
         });
+    },
+    linkedSave() {
+      var url = this.form.url;
+      var urlArr = url.split("/");
+      var hostname = urlArr[2];
+      this.form.logo = urlArr[0] + "//" + hostname + "/favicon.ico";
+      this.form.type = parseInt(this.form.type);
+      console.log(this.form);
+
+      self = this;
+      this.$store
+          .dispatch("link/editArticleLink", JSON.stringify(this.form))
+          .then((response) => {
+            this.getLinks()
+            console.log(response);
+            self.dialog = false;
+            self.$notify({
+              title: "成功",
+              message: "手动刷新页面查看",
+              type: "success",
+            });
+          })
+          .catch((res) => {
+            console.log(res);
+            this.$message.error("失败");
+          });
     },
     getLinks() {
       self = this;
