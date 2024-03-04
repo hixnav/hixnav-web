@@ -18,6 +18,10 @@
               <i class="el-icon-box"></i>
               <span slot="title">存储配置</span>
             </el-menu-item>
+            <el-menu-item index="4">
+              <i class="el-icon-box"></i>
+              <span slot="title">Banner配置</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-container>
@@ -101,6 +105,21 @@
               <el-form-item>
                 <el-button type="primary" size="small" @click="onSubmit">保存并初始化数据</el-button>
                 <!--                <el-button type="plain" size="small" @click="onInitHandle">初始化</el-button>-->
+              </el-form-item>
+            </el-form>
+          </el-main>
+
+          <el-main v-if="showMain == 4">
+            <!-- Banner配置 -->
+            <el-form ref="form" :model="config" label-width="100px">
+              <el-form-item label="首页 Banner" style="width: 60%;">
+                <el-input v-model="config.navBanner" placeholder="请输入地址，https://..."></el-input>
+              </el-form-item>
+              <el-form-item label="快链 Banner" style="width: 60%;">
+                <el-input v-model="config.linkBanner" placeholder="请输入地址，https://..."></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" size="small" @click="saveBanner">保 存</el-button>
               </el-form-item>
             </el-form>
           </el-main>
@@ -255,6 +274,9 @@ export default {
             type: 'warning'
           })
         });
+    },
+    saveBanner(){
+      console.log(this.config)
     },
   },
   created() {
